@@ -1,0 +1,40 @@
+version: "3"
+services:
+  nginx:
+    build:
+      context: ./docker/nginx/
+    container_name: app-nginx
+    depends_on:
+      - app
+    networks:
+      - app_network
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    container_name: app-node
+    depends_on:
+      - db
+    volumes:
+      - ./:/var/app
+      - /var/app/node_modules
+    networks:
+      - app_network
+  db:
+    container_name: app-db
+    build:
+      context: ./docker/database/
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_INITDB_ARGS: --encoding=UTF8 --lc-collate=ru_RU.UTF-8 --lc-ctype=ru_RU.UTF-8
+      POSTGRES_MULTIPLE_EXTENSIONS: postgis,hstore,postgis_topology,postgis_raster,pgrouting
+    networks:
+      - app_network
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+networks:
+  app_network:

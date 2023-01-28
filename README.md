@@ -1,73 +1,49 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Тестовое задание для [Фабрика Решений](https://solutionfactory.ru/)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Проект выполнен с использование DDD-архитектуры.
+<br>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
+### Сущности:
+<ul>
+<li>Auth - авторизация</li>
+<li>Tokens - jwt-токен.</li>
+<li>Cars - автомобили.</li>
+<li>Users - пользователи.</li>
+<li>Washbox - бокс автомойки.</li>
+<li>Visits - система посещений.</li>
+</ul>
 
-## Description
+-----
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Логирование ошибок происходит в едином файле в папке **handlers**.
+<br>
 
-## Installation
+Базовая сущность для **entities** находится в папке **config**.
+<br>
 
-```bash
-$ npm install
-```
+Картинки загруженные при создании автомобиля сохраняются в папке **static**.
+<br>
 
-## Running the app
+Ошибки валидации имеются только на **английском** языке, а те, которые могут относиться к пользователю имеют также русифицированный вариант.
+<br>
 
-```bash
-# development
-$ npm run start
+Синхронизация базы данных и актуализация данных происходит через **Cron** в сервисах, где это нужно (Visits, Tokens).
+<br>
+**Visits** - раз в минуту.
+<br>
+**Tokens** - раз в час.
+<br>
+Токен устаревает через 1 день.
+<br>
 
-# watch mode
-$ npm run start:dev
+----
+Я решил не делать на каждую итерацию сущностей миграции, поэтому имеется только одна.
+<br>
+Однако, если бы проект имел большее количество сущностей, то необходимо делать миграции как можно чаще, чтобы избежать потерь во времени.
+<br>
 
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+___
+## Запуск
+1. Проставьте необходимые поля в **.env** (пример есть в .env.example)
+2.  `docker compose up` Поднимется сервер + база данных **postgres**
